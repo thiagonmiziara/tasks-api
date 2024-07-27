@@ -27,9 +27,18 @@ def get_tasks():
     task_list = [task.to_dict() for task in tasks]
     output = {
         "tasks": task_list,
-        "total_tasks": 0,
+        "total_tasks": len(task_list),
     }
     return jsonify(output)
+
+
+@app.route("/tasks/<int:id>", methods=["GET"])
+def get_task_by_id(id):
+    for task in tasks:
+        if task.task_id == id:
+            return jsonify(task.to_dict())
+
+    return jsonify({"message": "Não foi possível encontrar a atividade"}), 404
 
 
 if __name__ == "__main__":
